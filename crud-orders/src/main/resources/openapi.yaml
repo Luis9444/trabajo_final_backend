@@ -1,0 +1,123 @@
+openapi: 3.0.1
+info:
+  title: Api creada con java/Spring
+  description: Esta API permite realizar Ordenes
+  contact:
+    name: Sequeira Jose Luis
+  version: '1.0'
+servers:
+  - url: http://localhost:8082
+    description: Generated server url
+paths:
+  /api/orders/{id}:
+    put:
+      tags:
+        - ruta-orders
+      summary: Actualiza y Edita nuevas ordenes.
+      operationId: updateOrder
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Orders'
+        required: true
+      responses:
+        '200':
+          description: La Orden se actualizo con exito.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Orders'
+        '400':
+          description: error de la respuesta
+        '500':
+          description: error de parametros
+    delete:
+      tags:
+       - ruta-orders
+      summary: Elimina una nueva Orden.
+      operationId: deleteOrder
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: La orden fue eliminado con exito. 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Orders'
+        '500':
+          description: El parametro posee un error.
+  /api/orders:
+    get:
+      tags:
+         - ruta-orders
+      summary: Obtiene todas las Ordenes.
+      operationId: getOrders
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Orders'
+    post:
+      tags:
+         - ruta-orders
+      summary: Se crea una nueva Orden.
+      operationId: newOrders
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Orders'
+        required: true
+      responses:
+        '200':
+          description: La orden fue creada con exito
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Orders'
+        '201':
+          description: Created
+          content:
+            '*/*':
+              schema:
+                type: object
+        '400':
+          description: error de respuesta
+        '500':
+          description: error de los parametros
+components:
+  schemas:
+    Orders:
+      required:
+        - ord
+        - sku
+        - cant
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        ord:
+          type: string
+        sku:
+          type: string
+        cant:
+          type: string
